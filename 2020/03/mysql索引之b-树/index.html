@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.74.3 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Icebem">
+<meta name="keywords" content="hugo">
+<meta name="description" content="索引、二叉树、平衡二叉树(AVL)、多路平衡树(B树/B-树)、B&#43;树、红黑树">
+
+
+<meta property="og:description" content="索引、二叉树、平衡二叉树(AVL)、多路平衡树(B树/B-树)、B&#43;树、红黑树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL索引之B&#43;树">
+<meta name="twitter:title" content="MySQL索引之B&#43;树">
+<meta property="og:url" content="http://localhost:1313/2020/03/mysql%E7%B4%A2%E5%BC%95%E4%B9%8Bb-%E6%A0%91/">
+<meta property="twitter:url" content="http://localhost:1313/2020/03/mysql%E7%B4%A2%E5%BC%95%E4%B9%8Bb-%E6%A0%91/">
+<meta property="og:site_name" content="icebem">
+<meta property="og:description" content="索引、二叉树、平衡二叉树(AVL)、多路平衡树(B树/B-树)、B&#43;树、红黑树">
+<meta name="twitter:description" content="索引、二叉树、平衡二叉树(AVL)、多路平衡树(B树/B-树)、B&#43;树、红黑树">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-03-15T15:19:24">
+  
+  
+    <meta property="article:modified_time" content="2020-03-15T15:19:24">
+  
+  
+  
+    
+      <meta property="article:section" content="mysql">
+    
+  
+  
+    
+      <meta property="article:tag" content="btree">
+    
+      <meta property="article:tag" content="索引">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://img-blog.csdnimg.cn/20200726165938330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p3eDkwMDEwMg==,size_16,color_FFFFFF,t_70">
+  <meta property="twitter:image" content="https://img-blog.csdnimg.cn/20200726165938330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p3eDkwMDEwMg==,size_16,color_FFFFFF,t_70">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=640">
+
+
+    <title>MySQL索引之B&#43;树</title>
+
+    <link rel="icon" href="http://localhost:1313/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/2020/03/mysql%E7%B4%A2%E5%BC%95%E4%B9%8Bb-%E6%A0%91/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://localhost:1313/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://localhost:1313/">icebem</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://localhost:1313/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://localhost:1313/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Icebem</h4>
+        
+          <h5 class="sidebar-profile-bio">Do one thing at a time and do well</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://localhost:1313/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://localhost:1313/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://localhost:1313/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://localhost:1313/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://localhost:1313/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/icebemm" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://localhost:1313/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      MySQL索引之B&#43;树
+    </h1>
+  
+  
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>索引、二叉树、平衡二叉树(AVL)、多路平衡树(B树/B-树)、B+树、红黑树</p>
+<pre><code>参考文章：https://blog.csdn.net/zwx900102/article/details/106379268
+         https://segmentfault.com/a/1190000021488885
+         https://blog.csdn.net/mmshixing/article/details/51692892
+</code></pre><h4 id="什么是索引">什么是索引</h4>
+<p>提起索引，大家都知道，建立索引可以让数据库查询更快，那么索引究竟是什么？我想这就不是每个人都能说得出来了。
+索引，是数据库管理系统中一个排序的数据结构，并用以协助快速查询、 更新数据库表中数据。
+是的，索引是一种数据结构，但是那么多的数据结构中为何MySQL要选择B+树呢？接下来就让我们一起来了解下B+树相对于其他数据结构有何独特之处！</p>
+<h4 id="二分查找法binary-search">二分查找法(Binary Search)</h4>
+<p>首先让我们自己想一想，如果让我们去设计，我们会怎么去存储？我想大部分人想到就是用链表或者数组去存储数据，然后再按默认的顺序排好，再去查找，而一个排好顺序的链表我们就可以通过二分查找法来高效查询。
+二分查找也称折半查找，是一种效率较高的查找方法。比如有1-10十个数，我们要找到8，先从中间开始找5，然后发现8比5大，可以把5左边的数去掉，剩下6-10，再从中间开始找，依次类推，直到找到8为止。但是这种查找法有一个前提是数据必须是有序的，而且这种属于链表式的存储，我们一但要插入或者修改一个数据，可能会伴随着大量的下标移动，比如我们把1-10放在数组里面，下标分别对应0-9，然后现在要插入一个0，为了保证有序，0必须排在第一位，那么1-10所有的数据下标都要往后移动一位，这种就有点大动干戈了，所以为了解决这个问题，我们就有了二叉树。</p>
+<h4 id="二叉查找树bst">二叉查找树(BST）</h4>
+<p>二叉查找树简称二叉树(BST)，英文全称：Binary Search Tree，这是一种什么样的数据结构呢？请看下图
+<img src="https://img-blog.csdnimg.cn/20200527125227898.png" alt="image.png">
+在上面这棵树中，我们要找到8，先从根节点6开始比较，发现8比6大，就往右边走，就可以找到8.</p>
+<h4 id="二叉树的特点">二叉树的特点</h4>
+<p>二叉树有两个特点：
+1、左子树所有的节点都小于父节点
+2、右子树所有的节点都大于父节点</p>
+<h4 id="二叉树存在的问题">二叉树存在的问题</h4>
+<p>二叉树有一个严重的问题，那就是它的查找耗时是和这棵树的深度相关的，在最坏的情况下时间复杂度会退化成 O(n)。
+如下图：
+<img src="https://img-blog.csdnimg.cn/20200527131617920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p3eDkwMDEwMg==,size_16,color_FFFFFF,t_70" alt="image.png">
+上面就是一种极端情况下的二叉树，会退化成线性链表，这种如果要找到最后一个数6，就要从1开始遍历完整棵树，效率就会非常低。那么有没有一种相对平衡一点，不要出现这种极端情况的数据结构呢，所以就有了平衡二叉树。</p>
+<h4 id="平衡二叉树avl-tree">平衡二叉树(AVL Tree)</h4>
+<p>平衡二叉树，英文全名叫做 Balanced binary search trees，简称AVL树，这个AVL并不是英文名的简称，而是发明者(G. M. Adelson-Velsky和E. M. Landis)两个人的人名缩写，请看下图一个平衡二叉树示例：
+<img src="https://img-blog.csdnimg.cn/20200527132442501.png" alt="image.png">
+上图中也是从1开始插入6，如果是二叉树就会变成一种线性结构，但是平衡二叉树就会通过左旋和右旋操作，最终会生成上图所示的结构，感兴趣的可以进入网站自己操作观察旋转过程.</p>
+<h4 id="平衡二叉树的特点">平衡二叉树的特点</h4>
+<p>平衡二叉树相比较二叉树具有一个特点就是：左右子树深度差绝对值不能超过 1，当然，平衡二叉树首先是一颗二叉树，只不过通过左旋和右旋实现左右子树深度差不超过1，避免了二叉树的极端情况的出现。</p>
+<h4 id="mysql为何不选择平衡二叉树">MySQL为何不选择平衡二叉树</h4>
+<p>既然平衡二叉树解决了普通二叉树的问题，那么mysql为何不选择平衡二叉树作为索引呢?</p>
+<h4 id="索引需要存储什么">索引需要存储什么</h4>
+<p>让我们想一想，如果我们要把索引存起来，那么应该存哪些信息呢，它应该存储三块信息：</p>
+<ul>
+<li>索引的值：就是表里面索引列对应的值。</li>
+<li>数据的磁盘地址(通过磁盘地址找到当前数据)或者直接存储整条数据。</li>
+<li>子节点的引用：我们需要从根节点往下走，所以需要知道左右子节点的地址。
+根据这三点，可以有如下大致的一个简单的结构图：
+<img src="https://img-blog.csdnimg.cn/20200528131428710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p3eDkwMDEwMg==,size_16,color_FFFFFF,t_70" alt="image.png">
+上图中数字表示的是索引的值，0x开头的表示磁盘地址，根节点中存了左右节点的引用。</li>
+</ul>
+<h4 id="avl树用来存储索引存在什么问题">AVL树用来存储索引存在什么问题</h4>
+<p>我们知道，页（Page）是 Innodb 存储引擎用于管理数据的最小磁盘单位，页的默认大小为16KB。页也就是上图中的节点，每查询一次节点就需要进行一次IO操作，IO操作是一种非常耗时的操作，很多业务系统的瓶颈都是卡在IO操作上，所以如果我们需要提高查询效率的办法之一就是减少IO次数，那么问题就来了，AVL树一个节点上只存了一个关键字(索引值)+一个磁盘地址+左右节点的引用，这是远远达不到16KB的，会浪费了大量的空间。
+上图中如果我们要找到6这条数据，需要进行3次IO(获取一个节点就是一个IO操作)，如果这棵树很高的话，就会进行大量的IO操作，所以说AVL树存在的最大问题就是空间利用不足，浪费了大量空间，数据量大的时候就会成为一颗瘦高的树。
+那么我们可以怎么改进呢？答案很明显了，那就是每个磁盘块多存一点东西，也就是说每个磁盘多存几个关键字，因为关键字越多，路数越多；路数越多，树也就越矮越胖，相应的操作IO次数就会越少。</p>
+<h4 id="多路平衡树balanced-tree">多路平衡树(Balanced Tree)</h4>
+<p>多路平衡树简称B树，又称B-树，和AVL树一样，B树在枝节点和叶子节点存储键值、磁盘地址、左右节点引用。请看下图的一个多路平衡树的示例：
+<img src="https://img-blog.csdnimg.cn/20200527163234805.png" alt="image.png"></p>
+<h4 id="b树的特点">B树的特点</h4>
+<p>相比较AVL树，B树一个磁盘上可以存多个关键字(值)，而且有一个特点就是：</p>
+<ul>
+<li>分叉数（路数）永远比关键字数多1。
+我们可以画出如下简图(下图中只画了3路，即两个关键字，实际取决于一页能存储多少个关键字)：从上图可以很明显的看出，同样高度的树，B树能存的数据远远大于平衡二叉树。
+<img src="https://img-blog.csdnimg.cn/20200528125955875.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p3eDkwMDEwMg==,size_16,color_FFFFFF,t_70" alt="image.png"></li>
+</ul>
+<h4 id="b树是如何查找数据的">B树是如何查找数据的</h4>
+<p>以上图为例，假如我们要找key=32这个数字，首先获取到根节点，发现18小于key，所以往右边走，获取到右边的数据，54和76，这时候遵循以下原则：</p>
+<ul>
+<li>key&lt;54,命中最左边分叉；</li>
+<li>key=54,直接命中，返回数据；</li>
+<li>54&lt;key&lt;76,走中间的一个分叉；</li>
+<li>key=76,直接命中，返回数据；</li>
+<li>key&gt;76，命中右边分支；
+这里因为key=32，所以走得是第1条，命中左边分支，这时候再去获取左边分支，获取到32和50，比较发现key=32，命中，返回数据。
+从上面我们可以看出B树效率相对于AVL树，在数据量大的情况效率已经提高了很多，那么为什么MySQL还是不选择B树作为索引呢？
+那么接下来让我们先看看改良版的B+树，然后再下结论吧！</li>
+</ul>
+<h4 id="b树">B+树</h4>
+<p>B+树由B树改良而来，属于改良版的多路平衡查找树。
+首先让我们来看看B+树到底长什么样呢：
+<img src="https://img-blog.csdnimg.cn/20200527205159561.png" alt="image.png">
+对比B+树，我们可以发现一个很明显的区别就是叶子节点有一个箭头指引而且从左到右是有序的。
+InnoDB中使用的B+树相比较于传统B+树，改进之后的B+树具有以下特点</p>
+<h4 id="innodb中b树的特点">InnoDB中B+树的特点</h4>
+<ul>
+<li>它的关键字的数量是跟路数相等的。</li>
+<li>B+树的根节点和枝节点中都不会存储数据，只有叶子节点才存储数据。而搜索到关键字不会直接返回，会到最后一层的叶子节点。</li>
+<li>B+树的每个叶子节点增加了一个指向相邻叶子节点的指针，它的最后一个数据会指向下一个叶子节点的第一个数据，形成了一个有序链表的结构。</li>
+<li>它是根据左闭右开的区间来检索数据的
+按照B+树的特点，我们可以画出一个存储数据的简图，如下：
+<img src="https://img-blog.csdnimg.cn/20200726165938330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p3eDkwMDEwMg==,size_16,color_FFFFFF,t_70" alt="image.png"></li>
+</ul>
+<h4 id="b树是如何查找数据的-1">B+树是如何查找数据的</h4>
+<p>假设我们现在要找一个key=66，遵循如下步骤：</p>
+<ol>
+<li>获取到根节点，依据左闭右开有如下区间：[1,28)，[28,66),[66,+∞)，命中了最后一个区间，虽然66在根节点，但是因为根节点不存储数据，所以是会往下继续搜索右边的节点</li>
+<li>获取到右边节点，依据左闭右开有如下区间：[66,78),[78,89),[89,+∞)，命中左边的范围。</li>
+<li>获取到第三排倒数第二块磁盘，找到66，返回数据。</li>
+</ol>
+<h4 id="b树相对于b树的改进点">B+树相对于B树的改进点</h4>
+<p>B+树是由B树改进而来的，所以B树能解决的问题，B+树都能解决，那么B+树能解决哪些B树所不能解决的问题呢？</p>
+<ol>
+<li>扫库、扫表能力更强：如果我们要对表进行全表扫描，只需要遍历叶子节点就可以 了，不需要遍历整棵B+Tree</li>
+<li>B+Tree 的磁盘读写能力相对于 B Tree 来说更强：根节点和枝节点不保存数据区， 所以一个节点可以保存更多的关键字，一次磁盘加载(IO操作)能获取到相对更多的关键字。</li>
+<li>天然具备排序能力：叶子节点上有下一个数据区的指针，数据形成了链表。</li>
+<li>效率稳定：B+Tree 永远是在叶子节点拿到数据，所以 IO 次数是稳定的，而B树运气好根节点就拿到数据，运气不好就要到叶子节点才能拿到数据，所花费的时间会有差异。</li>
+</ol>
+<h4 id="红黑树">红黑树</h4>
+<p><img src="https://img-blog.csdnimg.cn/20190330162155683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0ZhdGVSdWxlcg==,size_16,color_FFFFFF,t_70" alt="image.png">
+红黑树的结构特点：</p>
+<ul>
+<li>（1）每个节点或者是黑色，或者是红色。</li>
+<li>（2）根节点是黑色。</li>
+<li>（3）每个叶子节点（NIL）是黑色。[注意：这里叶子节点指为空(NIL或NULL)的叶子节点]</li>
+<li>（4）如果一个节点是红色的，则它的子节点必须是黑色的。</li>
+<li>（5）从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。</li>
+</ul>
+<h5 id="为什么要要用红黑树">为什么要要用红黑树？</h5>
+<ol>
+<li>首先红黑树是不符合AVL树的平衡条件的，即每个节点的左子树和右子树的高度最多差1的二叉查找树。但是提出了为节点增加颜色，红黑树是用非严格的平衡来换取增删节点时候旋转次数的降低，任何不平衡都会在三次旋转之内解决，而AVL是严格平衡树，因此在增加或者删除节点的时候，根据不同情况，旋转的次数比红黑树要多。所以红黑树的插入效率更高</li>
+<li>红黑树能够以O(log2 (n)) 的时间复杂度进行搜索、插入、删除操作</li>
+<li>简单来说红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。</li>
+</ol>
+<h5 id="红黑树和平衡树的对比和选择">红黑树和平衡树的对比和选择</h5>
+<ol>
+<li>平衡树结构更加直观，读取性能比红黑树要高；增加和删除节点 恢复平衡的性能不如红黑树</li>
+<li>红黑树，读取性能不如平衡树；增加和删除节点 恢复平衡性能比平衡树好</li>
+</ol>
+<h4 id="总结">总结</h4>
+<p>本文简述了从二叉树到B+树之前的演进过程，并大致讲解了各种数据结构之间的差异以及MySQL为何最终会选择了B+树来作为索引。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://localhost:1313/tags/btree/">btree</a>
+
+  <a class="tag tag--primary tag--small" href="http://localhost:1313/tags/%E7%B4%A2%E5%BC%95/">索引</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://localhost:1313/2020/05/vim%E6%96%87%E6%9C%AC%E5%A4%9A%E5%87%BA-%E7%AC%A6%E5%8F%B7/" data-tooltip="vim文本多出
+符号">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://localhost:1313/2020/03/slack%E5%BA%94%E7%94%A8/" data-tooltip="Slack应用">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Icebem. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://localhost:1313/2020/05/vim%E6%96%87%E6%9C%AC%E5%A4%9A%E5%87%BA-%E7%AC%A6%E5%8F%B7/" data-tooltip="vim文本多出
+符号">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://localhost:1313/2020/03/slack%E5%BA%94%E7%94%A8/" data-tooltip="Slack应用">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A1313%2F2020%2F03%2Fmysql%25E7%25B4%25A2%25E5%25BC%2595%25E4%25B9%258Bb-%25E6%25A0%2591%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Flocalhost%3A1313%2F2020%2F03%2Fmysql%25E7%25B4%25A2%25E5%25BC%2595%25E4%25B9%258Bb-%25E6%25A0%2591%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Flocalhost%3A1313%2F2020%2F03%2Fmysql%25E7%25B4%25A2%25E5%25BC%2595%25E4%25B9%258Bb-%25E6%25A0%2591%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Icebem</h4>
+    
+      <div id="about-card-bio">Do one thing at a time and do well</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        wechat: <em>icebem</em>
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Amoy
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('http://localhost:1313/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://localhost:1313/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
