@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>question on icebem</title>
-    <link>http://localhost:1313/categories/question/</link>
+    <link>https://icebemm.github.io/categories/question/</link>
     <description>Recent content in question on icebem</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 May 2020 15:19:24 +0800</lastBuildDate>
     
-	<atom:link href="http://localhost:1313/categories/question/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://icebemm.github.io/categories/question/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Question Camp</title>
-      <link>http://localhost:1313/2020/05/question-camp/</link>
+      <link>https://icebemm.github.io/2020/05/question-camp/</link>
       <pubDate>Wed, 20 May 2020 15:19:24 +0800</pubDate>
       
-      <guid>http://localhost:1313/2020/05/question-camp/</guid>
+      <guid>https://icebemm.github.io/2020/05/question-camp/</guid>
       <description>&lt;p&gt;问题集中营&lt;/p&gt;</description>
     </item>
     

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>home on icebem</title>
-    <link>http://localhost:1313/tags/home/</link>
+    <link>https://icebemm.github.io/tags/home/</link>
     <description>Recent content in home on icebem</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 20 Aug 2020 15:19:24 +0800</lastBuildDate>
     
-	<atom:link href="http://localhost:1313/tags/home/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://icebemm.github.io/tags/home/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hello World</title>
-      <link>http://localhost:1313/2020/08/hello-world/</link>
+      <link>https://icebemm.github.io/2020/08/hello-world/</link>
       <pubDate>Thu, 20 Aug 2020 15:19:24 +0800</pubDate>
       
-      <guid>http://localhost:1313/2020/08/hello-world/</guid>
+      <guid>https://icebemm.github.io/2020/08/hello-world/</guid>
       <description>&lt;p&gt;万事开头 Hello World&lt;/p&gt;</description>
     </item>
     
