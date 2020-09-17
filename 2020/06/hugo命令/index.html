@@ -8,37 +8,35 @@
 <meta name="generator" content="Hugo 0.74.3 with theme Tranquilpeak 0.4.8-BETA">
 <meta name="author" content="Icebem">
 <meta name="keywords" content="hugo">
-<meta name="description" content="问题集中营">
+<meta name="description" content="Hugo常用命令、部署github pages">
 
 
-<meta property="og:description" content="问题集中营">
+<meta property="og:description" content="Hugo常用命令、部署github pages">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Question Camp">
-<meta name="twitter:title" content="Question Camp">
-<meta property="og:url" content="https://icebemm.github.io/2020/05/question-camp/">
-<meta property="twitter:url" content="https://icebemm.github.io/2020/05/question-camp/">
+<meta property="og:title" content="Hugo命令">
+<meta name="twitter:title" content="Hugo命令">
+<meta property="og:url" content="https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/">
+<meta property="twitter:url" content="https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/">
 <meta property="og:site_name" content="icebem">
-<meta property="og:description" content="问题集中营">
-<meta name="twitter:description" content="问题集中营">
+<meta property="og:description" content="Hugo常用命令、部署github pages">
+<meta name="twitter:description" content="Hugo常用命令、部署github pages">
 <meta property="og:locale" content="en-us">
 
   
-    <meta property="article:published_time" content="2020-05-20T15:19:24">
+    <meta property="article:published_time" content="2020-06-25T15:19:24">
   
   
-    <meta property="article:modified_time" content="2020-05-20T15:19:24">
+    <meta property="article:modified_time" content="2020-06-25T15:19:24">
   
-  
-  
-    
-      <meta property="article:section" content="question">
-    
   
   
     
-      <meta property="article:tag" content="question">
+      <meta property="article:section" content="tool">
     
-      <meta property="article:tag" content="redis">
+  
+  
+    
+      <meta property="article:tag" content="hugo">
     
   
 
@@ -51,8 +49,8 @@
 
 
 
-  <meta property="og:image" content="https://i.loli.net/2020/09/17/isaWm8YMyntbf6V.png">
-  <meta property="twitter:image" content="https://i.loli.net/2020/09/17/isaWm8YMyntbf6V.png">
+  <meta property="og:image" content="https://i.loli.net/2020/09/17/JKdYGA2q9oelOkC.png">
+  <meta property="twitter:image" content="https://i.loli.net/2020/09/17/JKdYGA2q9oelOkC.png">
 
 
 
@@ -62,14 +60,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=640">
 
 
-    <title>Question Camp</title>
+    <title>Hugo命令</title>
 
     <link rel="icon" href="https://icebemm.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://icebemm.github.io/2020/05/question-camp/">
+    <link rel="canonical" href="https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -219,21 +217,102 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Question Camp
+      Hugo命令
     </h1>
   
   
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-06-25T15:19:24&#43;08:00">
+        
+  June 25, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://icebemm.github.io/categories/tool">tool</a>
+    
+  
+
+  </div>
+
 </div>
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>问题集中营</p>
-<h3 id="1cpu持续飙高负载">1.CPU持续飙高负载</h3>
-<pre><code>1.登录上机器，perf命令，可展示负载的调用栈链路
-2.pprof工具分析
-最后发现是redis的轮询导致cup高负载
-原先使用的pop并持续轮询redis队列
-后改用阻塞式的BLPOP弹出
+              <p>Hugo常用命令、部署github pages</p>
+<h3 id="1快速安装hugo--hugo中文文档httpswwwgohugoorg">1.快速安装Hugo&ndash;<a href="https://www.gohugo.org/">Hugo中文文档</a></h3>
+<p>可参照hugo中文文档流程操作安装<br>
+我使用的二进制<a href="https://github.com/gohugoio/hugo/releases">安装包(window10)</a><br>
+下载解压后，将hugo.exe加入系统环境变量即可全局使用。</p>
+<ol>
+<li>生成站点</li>
+</ol>
+<pre><code>hugo new site xxx (xxx 这个名字可以随意取，它其实就是一个文件夹名)
+</code></pre><ol start="2">
+<li>目录结构</li>
+</ol>
+<pre><code>├── archetypes
+│   └── default.md
+├── config.toml # 配置文件
+├── content     # 以后的文章就放在这个目录下
+├── data
+├── layouts
+├── static      # 这里存放静态资源文件，比如 CSS、JS 以及图片
+└── themes      # 这里存放主题
+</code></pre><ol start="3">
+<li>添加主题&ndash;<a href="https://themes.gohugo.io/">主题库</a><br>
+本站借鉴<a href="https://github.com/kakawait/hugo-tranquilpeak-theme">hugo-tranquilpeak-theme</a>主题</li>
+</ol>
+<pre><code>git clone 主题仓库地址.git --depth=1 themes/主题名
+</code></pre><ol start="4">
+<li>克隆后参照config.toml文件配置</li>
+</ol>
+<pre><code># 将默认配置拷贝到新建站点的配置中
+cp themes/主题名/exampleSite/config.toml ./
+</code></pre><ol start="5">
+<li>启动本地服务</li>
+</ol>
+<pre><code>hugo server
+</code></pre><p>默认是 1313 端口号，在浏览器中直接访问 http://localhost:1314/ 就可以访问到新建的博客了。根据自己的需要，修改根目录下的 config.toml 文件，来修改自己站点的配置。</p>
+<h3 id="2部署github-pages">2.部署github pages</h3>
+<p>2.1 本地编译生成静态文件</p>
+<pre><code>hugo  (hugo则会在当前目录生成public文件夹，如需指定文件夹位置：hugo -d 文件夹路径)
+</code></pre><p>2.2 推送github仓库</p>
+<pre><code>1.到github上生成跟自己账号一样的仓库地址，如xxx.github.io仓库地址（取名固定格式: 账号.github.io）
+2.后将上面执行hugo后生成的文件内容推送至新创建的仓库（例如将public文件里面的所有文件推送至gith仓库）
+3.如果想将hugo源代码和生成的静态页面同一仓库，建议执行： hugo -d docs 即静态文件内容生成至doc文件夹；
+  后在github项目仓库里的setting里的source里，将文件读取选择为docs文件夹，见下图
+</code></pre><p><img src="https://i.loli.net/2020/09/17/ldihXbRmpkCDUS3.png" alt="1.png">
+2.3 访问地址</p>
+<pre><code>访问地址即新创建的仓库名，如 icebemm.github.io
+</code></pre><p>2.4 有时因为网络原因，访问不了该地址，服务拒绝请求</p>
+<pre><code>可将网址放置一些DNS域名解析的网址，将解析出的ip，置于本地hosts文件映射，即可访问
+</code></pre><h3 id="3hugo常用命令">3.Hugo常用命令</h3>
+<pre><code>--bind=&quot;127.0.0.1&quot;    服务监听IP地址；
+  -p, --port=1313       服务监听端口；
+  -w, --watch[=true]      监听站点目录，发现文件变更自动编译；
+  -D, --buildDrafts     包括被标记为draft的文章；
+  -E, --buildExpired    包括已过期的文章；
+  -F, --buildFuture     包括将在未来发布的文章；
+  -b, --baseURL=&quot;www.datals.com&quot;  服务监听域名；
+  --log[=false]:           开启日志；
+  --logFile=&quot;/var/log/hugo.log&quot;:          log输出路径；
+  -t, --theme=&quot;&quot;          指定主题；
+  -v, --verbose[=false]: 输出详细信息
+</code></pre><p>3.1  常用使用参数组合</p>
+<pre><code>hugo server -t xxx --buildDrafts --baseURL=http://www.datals.com  --bind=0.0.0.0 --port=80 -w
+
+-t xxx            使用xxx主题，如果使用-t 选择了主题会将当前默认的主题覆盖；
+ --buildDrafts    参数将生成被标记为草稿的页面，是否发布：hugo 会忽略所有通过 draft: true 标记为草稿的文件。必须改为 draft: false 才会编译进 HTML 文件。
+ --baseURL=http://www.datals.com   站点监听域名
+ --bind=0.0.0.0   监听全部网段
+ --port=80        服务监听端口
+ -w               如果修改了网站内的信息，会直接显示在浏览器的页面上，不需要重新运行hugo server，方便我们进行修改。
 </code></pre>
               
             </div>
@@ -246,9 +325,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">TAGGED IN</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://icebemm.github.io/tags/question/">question</a>
-
-  <a class="tag tag--primary tag--small" href="https://icebemm.github.io/tags/redis/">redis</a>
+  <a class="tag tag--primary tag--small" href="https://icebemm.github.io/tags/hugo/">hugo</a>
 
                   </div>
                 
@@ -261,7 +338,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/" data-tooltip="Hugo命令">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/08/hello-world/" data-tooltip="Hello World">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -269,8 +346,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/vim%E6%96%87%E6%9C%AC%E5%A4%9A%E5%87%BA-%E7%AC%A6%E5%8F%B7/" data-tooltip="vim文本多出
-符号">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/question-camp/" data-tooltip="Question Camp">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -313,7 +389,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/" data-tooltip="Hugo命令">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/08/hello-world/" data-tooltip="Hello World">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -321,8 +397,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/vim%E6%96%87%E6%9C%AC%E5%A4%9A%E5%87%BA-%E7%AC%A6%E5%8F%B7/" data-tooltip="vim文本多出
-符号">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/question-camp/" data-tooltip="Question Camp">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -351,19 +426,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ficebemm.github.io%2F2020%2F05%2Fquestion-camp%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ficebemm.github.io%2F2020%2F06%2Fhugo%25E5%2591%25BD%25E4%25BB%25A4%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ficebemm.github.io%2F2020%2F05%2Fquestion-camp%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ficebemm.github.io%2F2020%2F06%2Fhugo%25E5%2591%25BD%25E4%25BB%25A4%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Ficebemm.github.io%2F2020%2F05%2Fquestion-camp%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Ficebemm.github.io%2F2020%2F06%2Fhugo%25E5%2591%25BD%25E4%25BB%25A4%2F">
           <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
         </a>
       </li>

@@ -6,10 +6,19 @@
     <description>Recent content in tool on icebem</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Mar 2020 15:19:24 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2020 15:19:24 +0800</lastBuildDate>
     
 	<atom:link href="https://icebemm.github.io/categories/tool/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hugo命令</title>
+      <link>https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 25 Jun 2020 15:19:24 +0800</pubDate>
+      
+      <guid>https://icebemm.github.io/2020/06/hugo%E5%91%BD%E4%BB%A4/</guid>
+      <description>&lt;p&gt;Hugo常用命令、部署github pages&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Slack应用</title>
