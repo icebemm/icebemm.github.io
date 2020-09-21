@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>slice on icebem</title>
+    <link>https://icebemm.github.io/tags/slice/</link>
+    <description>Recent content in slice on icebem</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 May 2020 15:19:24 +0800</lastBuildDate>
+    
+	<atom:link href="https://icebemm.github.io/tags/slice/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>slice杂货铺</title>
+      <link>https://icebemm.github.io/2020/05/slice%E6%9D%82%E8%B4%A7%E9%93%BA/</link>
+      <pubDate>Thu, 28 May 2020 15:19:24 +0800</pubDate>
+      
+      <guid>https://icebemm.github.io/2020/05/slice%E6%9D%82%E8%B4%A7%E9%93%BA/</guid>
+      <description>&lt;p&gt;slice各类知识点收集处&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

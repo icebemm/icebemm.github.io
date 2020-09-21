@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.74.3 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Icebem">
+<meta name="keywords" content="hugo">
+<meta name="description" content="slice各类知识点收集处">
+
+
+<meta property="og:description" content="slice各类知识点收集处">
+<meta property="og:type" content="article">
+<meta property="og:title" content="slice杂货铺">
+<meta name="twitter:title" content="slice杂货铺">
+<meta property="og:url" content="https://icebemm.github.io/2020/05/slice%E6%9D%82%E8%B4%A7%E9%93%BA/">
+<meta property="twitter:url" content="https://icebemm.github.io/2020/05/slice%E6%9D%82%E8%B4%A7%E9%93%BA/">
+<meta property="og:site_name" content="icebem">
+<meta property="og:description" content="slice各类知识点收集处">
+<meta name="twitter:description" content="slice各类知识点收集处">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-05-28T15:19:24">
+  
+  
+    <meta property="article:modified_time" content="2020-05-28T15:19:24">
+  
+  
+  
+    
+      <meta property="article:section" content="golang">
+    
+  
+  
+    
+      <meta property="article:tag" content="slice">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://i.loli.net/2020/09/21/FzcZy5ObDrMmXsn.png">
+  <meta property="twitter:image" content="https://i.loli.net/2020/09/21/FzcZy5ObDrMmXsn.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=640">
+
+
+    <title>slice杂货铺</title>
+
+    <link rel="icon" href="https://icebemm.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://icebemm.github.io/2020/05/slice%E6%9D%82%E8%B4%A7%E9%93%BA/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://icebemm.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://icebemm.github.io/">icebem</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://icebemm.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://icebemm.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Icebem</h4>
+        
+          <h5 class="sidebar-profile-bio">Do one thing at a time and do well</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://icebemm.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://icebemm.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://icebemm.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://icebemm.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://icebemm.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/icebemm" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://icebemm.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      slice杂货铺
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-28T15:19:24&#43;08:00">
+        
+  May 28, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://icebemm.github.io/categories/golang">golang</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>slice各类知识点收集处</p>
+<ul>
+<li><a href="#%E5%A4%A7%E6%95%B0%E7%BB%84%E9%81%8D%E5%8E%86">遍历拷贝问题</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0%E9%97%B4%E4%BC%A0%E9%80%92%E5%88%87%E7%89%87">函数间传递切片</a></li>
+<li><a href="#copy%E5%87%BD%E6%95%B0">COPY函数</a></li>
+</ul>
+<p>slice 是基于动态数组构建的，可以根据需要动态地扩容或者缩小。</p>
+<ul>
+<li>slice 可以使用内置 append() 函数实现快速且高效地扩容。</li>
+<li>你还可以通过分割底层内存的一部分来减少 slice 的大小。</li>
+<li>slice 的索引操作、迭代和垃圾回收都是非常高效的，因为底层是连续的内存块。</li>
+</ul>
+<h3 id="slice-组成">slice 组成</h3>
+<ul>
+<li>切片不存储数据，仅仅用于描述底层数组的一部分。</li>
+<li>切片是包含三个属性的结构体，分别是指向底层数组的指针、数组长度和数组容量。
+<img src="https://i.loli.net/2020/09/21/UwGRkmt4M6foVdP.png" alt="1.png"></li>
+<li>指针：指针指向可以通过 slice 访问到的第一个元素。这里需要注意的是，指向的不必是底层数组的第一个元素。</li>
+<li>长度：长度是数组中存在的元素总数。</li>
+<li>容量：容量表示可以扩展的最大大小。</li>
+</ul>
+<pre><code>type slice struct {
+	array unsafe.Pointer
+	lenint
+	capint
+}
+</code></pre><h3 id="切片的零值是-nil">切片的零值是 nil</h3>
+<h3 id="初始化slice">初始化slice</h3>
+<p>可以使用切片字面量或者 make() 函数来创建切片：</p>
+<pre><code>// Use make to create an empty slice of integers.
+//s := make([]type, len, cap)  // len 长度，cap 容量
+sliceOne := make([]int, 0)
+// Use a slice literal to create an empty slice of integers.
+sliceTwo := []int{}
+</code></pre><p><strong>一般我们在创建新切片的时候，最好要让新切片的长度和容量一样，
+这样我们在追加操作的时候就会生成新的底层数组，和原有数组分离，就不会因为共用底层数组而引起奇怪问题，
+因为共用数组的时候修改内容，会影响多个切片。</strong></p>
+<h3 id="切片的长度和容量是如何计算">切片的长度和容量是如何计算？</h3>
+<p>对底层数组大小为 k 的切片执行切片操作 slice[i:j] 之后，长度和容量分别是：<br>
+长度：j - i<br>
+容量：k - i<br>
+如下，切片操作之后得到的新切片长度和容量分别是：<br>
+长度：3 - 1 = 2<br>
+容量：5 - 1 = 4</p>
+<pre><code>slice := []int{10, 20, 30, 40, 50}
+fmt.Println(slice)  // Print [10 20 30 40 50]
+fmt.Println(len(slice)) // Print  5
+fmt.Println(cap(slice)) // Print  5
+/* Create a new slice.Contains a length 
+of 2 and capacity of 4 elements.*/
+newSlice := slice[1:3]
+fmt.Println(slice)  //Print [10 20 30 40 50]
+fmt.Println(len(newSlice))  //Print 2
+fmt.Println(cap(newSlice))  //Print 4
+</code></pre><p>slice 能访问的范围必须小于等于其长度，试图访问超出长度之外的元素将会报运行时错误</p>
+<pre><code>slice := []int{10, 20, 30, 40, 50}         // Create a new slice.
+newSlice := slice[1:3]                     // Contains a length of 2 and capacity of 4 elements.
+// Change index 3 of newSlice.
+// This element does not exist for newSlice.
+newSlice[3] = 45                           // panic: runtime error: index out of range
+</code></pre><h3 id="修改slice">修改slice</h3>
+<ol>
+<li>扩容的策略（扩容留出最多一倍的余量，主要还是为了减少可能的扩容频率。）<br>
+1.1 容量足够，无扩容则直接拷贝待 append 的数据到原 slice 底层指向的数组 之后（原slice的len之后），并返回指向该数组首地址的新slice（len改变）;<br>
+修改slice元素将会改变其他共享此slice切片的数组。<br>
+1.2 容量不够，有扩容则拷贝原有 slice 所指向部分数据到新开辟的数组，并对待 append 的数据附加到其后，并返回新数组首地址的新slice（底层数组，len，cap均改变）<br>
+修改扩容后的slice元素不会影响到旧的slice数组。</li>
+</ol>
+<ul>
+<li>len&lt;1024 时 2 倍扩容</li>
+<li>大于且未溢出时 1.25 倍扩容</li>
+<li>溢出则直接按申请大小扩容</li>
+<li>最后按mallocgc内存分配大小适配[5]来确定 len. (n-2n 之间)</li>
+</ul>
+<h3 id="迭代切片">迭代切片</h3>
+<p><em><strong>需要注意的是</strong></em>，range 返回的是值的拷贝，而不是引用。</p>
+<pre><code>slice := []int{10, 20, 30, 40}
+for key, val := range slice {
+    if key == 1 {
+        val = 100
+    }
+    fmt.Printf(&quot;Value: %d Value-Addr: %X ElemAddr: %X\n&quot;,
+        val, &amp;val, &amp;slice[key])
+}
+/*
+Output:
+Value: 10 Value-Addr: 10500168 ElemAddr: 1052E100
+Value: 20 Value-Addr: 10500168 ElemAddr: 1052E104
+Value: 30 Value-Addr: 10500168 ElemAddr: 1052E108
+Value: 40 Value-Addr: 10500168 ElemAddr: 1052E10C
+1. for-range 其实是语法糖，内部调用还是 for 循环，初始化会拷贝带遍历的列表（如 array，slice，map），
+然后每次遍历的v都是对同一个元素的遍历赋值。也就是说如果直接对v取地址，最终只会拿到一个地址，
+而对应的值就是最后遍历的那个元素所附给v的值。
+2. 因为迭代返回的变量在迭代过程中根据切片依次赋值的新变量。
+    // len_temp := len(range)
+    // range_temp := range
+    // for index_temp = 0; index_temp &lt; len_temp; index_temp++ {
+    //     value_temp = range_temp[index_temp]
+    //     index = index_temp
+    //     value = value_temp
+    //     original body
+    //   }
+    */
+------------------------------------------------------------------------
+for key, val := range slice {
+    if key == 1 {
+        slice[key] = 100
+    }
+    fmt.Println(val)
+}
+fmt.Println(slice) // [10 100 30 40]
+</code></pre><h2 id="大数组遍历">大数组遍历</h2>
+<pre><code>//假设值都为1，这里只赋值3个
+var arr = [102400]int{1, 1, 1}
+for i, n := range arr {
+    //just ignore i and n for simplify the example
+    _ = i
+    _ = n
+}
+--------------------------------
+【有问题】！遍历前的拷贝对内存是极大浪费啊 怎么优化？有两种
+对数组取地址遍历for i, n := range &amp;arr
+对数组做切片引用for i, n := range arr[:]
+反思题：对大量元素的 slice 和 map 遍历为啥不会有内存浪费问题？（提示，底层数据结构是否被拷贝）
+</code></pre><h2 id="函数间传递切片">函数间传递切片</h2>
+<p>切片在函数间以值的方式传递。由于切片的尺寸很小（在 64 位架构的机器上，一个切片需要 24 字节的内存：指针字段、长度和容量字段各需要 8 字节），
+在函数间复制和传递切片成本也很低。切片发生复制时，底层数组不会被复制，数组大小也不会有影响。</p>
+<pre><code>func main() {
+    s := []int{0, 1, 2, 3, 4, 5}
+    fmt.Printf(&quot;%p\n&quot;, &amp;s)      //0xc000086020
+    modify(s)   
+    fmt.Println(s)              //[0 10 2 3 4 5]
+}
+
+func modify(s []int) {
+    fmt.Printf(&quot;%p\n&quot;, &amp;s)      //0xc000086040
+    s[1] = 10
+}
+</code></pre><p>我们可以看到，原切片地址和传递之后的<span class="highlight-text red">切片的地址是不一样的，说明发生了复制</span>；在函数modify中修改了切片一个值，原切片的值也随之改变了，说明<span class="highlight-text red">这两个切片是共享底层数组的</span>。
+在函数间传递切片非常高效，而且不需要传递指针和处理复杂的语法，只需要复制切片，按自己的业务修改数据，最后传递回一个新的切片副本即可，这也是为什么函数间使用切片传参，而不是数组传参的原因。</p>
+<h2 id="copy函数">copy函数</h2>
+<p>Go提供了内置函数copy，可以讲一个切片复制到另一个切片。函数原型：</p>
+<pre><code>func copy(dst, src []Type) int
+</code></pre><p>dst是目标切片，src是源切片，函数返回两者长度的最小值。
+
+  
+  
+  
+  
+
+
+<figure class="highlight  language-">
+  <figcaption>
+    
+  </figcaption>
+  <table>
+    <tbody>
+      <tr>
+        <td class="gutter">
+          <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre>
+        </td>
+        <td class="code">
+          <pre class="code-highlight language-"><code class="">var s1 []int
+s2 := []int{1, 2, 3}
+s3 := []int{4, 5, 6, 7}
+s4 := []int{1, 2, 3}
+### 1、
+n1 := copy(s1, s2)
+fmt.Printf(&#34;n1=%d, s1=%v, s2=%v\n&#34;, n1, s1, s2)
+fmt.Println(&#34;s1 == nil&#34;, s1 == nil)
+### 2、
+n2 := copy(s2, s3)
+fmt.Printf(&#34;n2=%d, s2=%v, s3=%v\n&#34;, n2, s2, s3)
+### 3、
+n3 := copy(s3, s4)
+fmt.Printf(&#34;n3=%d, s3=%v, s4=%v\n&#34;, n3, s3, s4)
+
+输出：
+n1=0, s1=[], s2=[1 2 3]
+s1 == nil true
+n2=3, s2=[4 5 6], s3=[4 5 6 7]
+n3=3, s3=[1 2 3 7], s4=[1 2 3]</code></pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+上面代码生声明了nil切片s1和三个非空切片s2、s3和s4。从第一块代码块可以看到，因为s1是nil切片，执行完copy操作之后，s1依然还是nil。这有别于append函数：</p>
+<pre><code>var s1 []int
+s2 := []int{1, 2, 3}
+s1 = append(s1, s2...)
+fmt.Println(s1)   // 输出：[1 2 3]
+</code></pre><p>第二段代码：由于s2的长度是 3，s3的长度是 4，所以执行copy操作只会从s3复制 3 个元素至s2。copy只会复制，不会追加。
+第三段代码也是同样的道理。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://icebemm.github.io/tags/slice/">slice</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/map%E6%9D%82%E8%B4%A7%E9%93%BA/" data-tooltip="map杂货铺">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/question-camp/" data-tooltip="Question Camp">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Icebem. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/map%E6%9D%82%E8%B4%A7%E9%93%BA/" data-tooltip="map杂货铺">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://icebemm.github.io/2020/05/question-camp/" data-tooltip="Question Camp">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ficebemm.github.io%2F2020%2F05%2Fslice%25E6%259D%2582%25E8%25B4%25A7%25E9%2593%25BA%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ficebemm.github.io%2F2020%2F05%2Fslice%25E6%259D%2582%25E8%25B4%25A7%25E9%2593%25BA%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Ficebemm.github.io%2F2020%2F05%2Fslice%25E6%259D%2582%25E8%25B4%25A7%25E9%2593%25BA%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/de6a111778b9ba019fa0d34f61c6c8a4?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Icebem</h4>
+    
+      <div id="about-card-bio">Do one thing at a time and do well</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        wechat: <em>icebem</em>
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Amoy
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://icebemm.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://icebemm.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
