@@ -30,11 +30,20 @@
     </item>
     
     <item>
-      <title>slice</title>
-      <link>https://icebemm.github.io/tags/slice/</link>
+      <title>linux</title>
+      <link>https://icebemm.github.io/tags/linux/</link>
       <pubDate>Wed, 15 Jul 2020 15:19:24 +0800</pubDate>
       
-      <guid>https://icebemm.github.io/tags/slice/</guid>
+      <guid>https://icebemm.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>prometheus</title>
+      <link>https://icebemm.github.io/tags/prometheus/</link>
+      <pubDate>Wed, 15 Jul 2020 15:19:24 +0800</pubDate>
+      
+      <guid>https://icebemm.github.io/tags/prometheus/</guid>
       <description></description>
     </item>
     
@@ -62,6 +71,15 @@
       <pubDate>Thu, 28 May 2020 15:19:24 +0800</pubDate>
       
       <guid>https://icebemm.github.io/tags/map/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>slice</title>
+      <link>https://icebemm.github.io/tags/slice/</link>
+      <pubDate>Thu, 28 May 2020 15:19:24 +0800</pubDate>
+      
+      <guid>https://icebemm.github.io/tags/slice/</guid>
       <description></description>
     </item>
     
