@@ -264,6 +264,7 @@
 <ul>
 <li><a href="#1firing%E4%B8%8Eresolved%E9%80%9A%E7%9F%A5%E5%86%B2%E7%AA%81">firing与resolved通知冲突</a></li>
 <li><a href="#promtool%E5%B7%A5%E5%85%B7%E6%A3%80%E6%9F%A5yml%E9%85%8D%E7%BD%AE">promtool工具检查yml配置</a></li>
+<li><a href="#%E5%90%8C%E6%97%B6%E5%A4%9A%E6%B8%A0%E9%81%93%E5%91%8A%E8%AD%A6">同时多渠道告警</a></li>
 </ul>
 </li>
 </ul>
@@ -503,6 +504,7 @@ alertmanagers:
        description: &quot;{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes&quot;
     
    - alert: cup22告警
+   #  record：xxx (重新标识度量标准变量名，可将expr的结果重新保存一份新的metrics下来，此时下方的annotations不可有，不然会启动失败)
      expr: (1-(sum(increase(node_cpu_seconds_total{mode=&quot;idle&quot;}[1m]))by(instance))/(sum(increase(node_cpu_seconds_total[1m]))by(instance)))*100 &gt; 2
      for: 10s
      labels:
@@ -711,7 +713,7 @@ label_replace(my_metric, &quot;dest-label&quot;, &quot;$1&quot;, &quot;source-la
 <p>Prometheus主动拉取metrics<br>
 1.1 自定义上报metrics内容</p>
 <pre><code>可自行开发程序，允许固定格式的api接口访问 --ip:port/metrics (如127.0.0.1:8080/metrics)
-上报的内容格式如： hello为Graph查询的标识（自定义）-- (key{上报内容} value)
+上报的内容格式如： redis_key_size_monitor为Graph查询的标识（自定义的度量标准名称）-- (key{上报内容} value)
 redis_key_size_monitor{key=&quot;888&quot;} 1
 redis_key_size_monitor{key=&quot;999&quot;} 1
   
@@ -741,8 +743,28 @@ redis_key_size_monitor{key=&quot;999&quot;} 1
 
 可设置 send_resolved: false (即为问题解决了不需要通知)
 </code></pre><h3 id="promtool工具检查yml配置">promtool工具检查yml配置</h3>
-<p>解压包里有个promtool程序，当修改prometheus.yml文件时，可用来检查修改是否正确</p>
-<pre><code>./promtool check config prometheus.yml
+<pre><code>1. promtool命令行工具来校验,当修改prometheus.yml文件时，可用来检查修改是否正确
+go get github.com/prometheus/prometheus/cmd/promtool
+./promtool check config prometheus.yml
+</code></pre><h2 id="同时多渠道告警">同时多渠道告警</h2>
+<pre><code>1. 当alertmanager.yml里没匹配到match时，会默认使用 route下的receiver渠道来发送告警；   
+2. routes下一样的match时，前面会覆盖后面，即使用前面match里设置的渠道通知；   
+3. 当想同时通知钉钉和webhook时，设置如下（同个receivers里多个configs）：
+    receivers:
+    - name: 'my-slack'
+      slack_configs:
+      - send_resolved: false
+        api_url: https://hooks.slack.com/services/xxx
+        channel: '#alertmanager-critical'
+        text: &quot;{{ .CommonAnnotations.description }}&quot;
+      wechat_configs:
+      - corp_id: 'xxx'
+        to_party: '1'
+        agent_id: 'xxx'
+        to_user: '@all'
+        api_secret: 'xxx'
+        message: '{{ template &quot;wechat.default.message&quot; . }}'
+        api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'  
 </code></pre>
               
             </div>
